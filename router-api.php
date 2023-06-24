@@ -5,11 +5,13 @@ require_once "api_controller/api.controller.php";
 
 $route = new Router();
 
-$route->addRoute("pc","GET","apiController","getPc");
-$route->addRoute("pc/:ID","GET","apiController","getPc");
-$route->addRoute("pc/:ID","DELETE","apiController","deletePc");
-$route->addRoute("pc/","PUT","apiController","createPc");
-$route->addRoute("pc/:ID","POST","apiController","modifiePc");
+$route->addRoute("pc","GET","apiController","getPc"); //Corregir detalles pero funcionalidad esta --2
+$route->addRoute("pc/:ID","GET","apiController","getPc"); //Corregir detalles pero funcionalidad esta -- 4
+$route->addRoute("pc/ordenado","GET","apiController","getPcByOrder"); //Hacer --3
+$route->addRoute("pc?sort=".$_REQUEST['sort']."&order=".$_REQUEST['order'],"GET","apiController","getPcByOrder"); // --9
+// $route->addRoute("pc/:ID","DELETE","apiController","deletePc"); //Hacer 
+$route->addRoute("pc","PUT","apiController","createPc"); //Hacer --5
+$route->addRoute("pc/:ID","POST","apiController","modifiePc"); //Hacer --5
 
 $url = $_GET['recurso'];
 $verbo= $_SERVER['REQUEST_METHOD'];

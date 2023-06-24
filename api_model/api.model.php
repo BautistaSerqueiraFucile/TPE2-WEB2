@@ -29,16 +29,7 @@ class pc_model
         return ($sentencia->fetch(PDO::FETCH_OBJ));
     }
 
-    // funcion para obtener datos de pc por conjunto de gama
-    function GetPcByGama($gama)
-    {
-        $sentencia = $this->db->prepare('SELECT * FROM pc JOIN gama on pc.id_gama = gama.id_gama WHERE pc.id_gama=?');
-        $sentencia->execute(array($gama));
-        return ($sentencia->fetchAll(PDO::FETCH_OBJ));
-    }
-
-
-
+  
     //-----------------------------------------------------------------------------
     function postPc($pc)
     {
@@ -56,12 +47,6 @@ class pc_model
     {
         $respuesta = $this->db->prepare('DELETE FROM pc WHERE id_pc=?');
         return $respuesta->execute(array($id_pc));
-    }
-
-    function deletePcByGama($id_gama)
-    {
-        $respuesta = $this->db->prepare('DELETE FROM pc WHERE id_gama=?');
-        return $respuesta->execute(array($id_gama));
     }
 
     function searchPc($id_pc)

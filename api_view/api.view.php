@@ -3,7 +3,6 @@
 class vista{
 
     function respuesta($respuesta, $error){   
-        echo "asdad";
         header("Content-type: application/json");
         header("HTTP/1.1" . $error . " " . $this->estado($error));
         echo json_encode($respuesta);

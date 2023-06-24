@@ -24,7 +24,7 @@ class apiController {
                 $this->vista->respuesta( $articulo, 200 );
 
             } else {
-                $this->vista->respuesta( 'No se encontro tarea', 404 );
+                $this->vista->respuesta( 'No se encontro pc', 404 );
             }
         }
     }
