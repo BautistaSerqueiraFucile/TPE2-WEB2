@@ -1,7 +1,7 @@
 <?php
 define('URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']) . '/');
 require_once "route.php";
-require_once "mvc/api.controller.php";
+require_once "api_controller/api.controller.php";
 
 $route = new Router();
 
