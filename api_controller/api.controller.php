@@ -16,18 +16,25 @@ class apiController {
      public function getPc ( $params = null ) {
     
         if ( empty( $params ) ) {
-            $articulo = $this->modelo->GetAllPc();            
-            $this->vista->respuesta( $articulo, 200 );
+            $pc = $this->modelo->GetAllPc();            
+            $this->vista->respuesta( $pc, 200 );
         } else {
-            $articulo = $this->modelo->getPcbyId( $params[ ':ID' ] );
-            if ( !empty( $articulo ) ) {
-                $this->vista->respuesta( $articulo, 200 );
+            $pc = $this->modelo->getPcbyId( $params[ ':ID' ] );
+            if ( !empty( $pc ) ) {
+                $this->vista->respuesta( $pc, 200 );
 
             } else {
                 $this->vista->respuesta( 'No se encontro pc', 404 );
             }
         }
     }
+
+    function getPcByOrder(){
+        $pc= $this->modelo->getPcByOrder($_GET['sort'],$_GET['order']);
+        $this->vista->respuesta( $pc, 200 );
+    }
+
+
 
     function postPC() {
 

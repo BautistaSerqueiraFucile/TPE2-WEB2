@@ -29,6 +29,15 @@ class pc_model
         return ($sentencia->fetch(PDO::FETCH_OBJ));
     }
 
+    function getPcByOrder($sort,$order)
+    {
+        echo "entro";
+        $sentencia = $this->db->prepare('SELECT * FROM pc join gama on pc.id_gama = gama.id_gama order by ? ?');
+        $sentencia->execute([$sort, $order]);
+        return $sentencia->fetchAll(PDO::FETCH_OBJ);
+
+    }
+
   
     //-----------------------------------------------------------------------------
     function postPc($pc)
