@@ -1,50 +1,18 @@
 <?php
-
 require_once 'api_model/api.model.php';
+require_once 'api_controller/api.controller.php';
 require_once 'api_view/api.view.php';
-
-class apiController {
-
-    private $modelo;
-    private $vista;
-
-    public function __construct(){
-        $this->modelo = new pc_model();
-        $this->vista = new vista();
-    }
-        
-     public function getPc ( $params = null ) {
+abstract class apiController {
     
-        if ( empty( $params ) ) {
-            $pc = $this->modelo->GetAllPc();            
-            $this->vista->respuesta( $pc, 200 );
-        } else {
-            $pc = $this->modelo->getPcbyId( $params[ ':ID' ] );
-            if ( !empty( $pc ) ) {
-                $this->vista->respuesta( $pc, 200 );
+    protected $vista;
+    protected $data;
 
-            } else {
-                $this->vista->respuesta( 'No se encontro pc', 404 );
-            }
-        }
+    public function __construct() {        
+        $this->vista = new vista();
+        $this->data = file_get_contents("php://input");
     }
 
-    function getPcByOrder(){
-        $pc= $this->modelo->getPcByOrder($_GET['sort'],$_GET['order']);
-        $this->vista->respuesta( $pc, 200 );
-    }
-
-
-
-    function postPC() {
-
-    }
-
-    function putPc() {
-
-    }
-
-    function depetePc() {
-
+    function obtenerDatos($params=null){
+        return json_decode( $this->data,true);
     }
 }
