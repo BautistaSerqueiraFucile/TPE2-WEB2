@@ -1,6 +1,4 @@
 <?php
-require_once 'api_model/api.model.php';
-require_once 'api_controller/api.controller.php';
 require_once 'api_view/api.view.php';
 abstract class apiController {
     

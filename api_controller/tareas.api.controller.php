@@ -18,14 +18,14 @@ class tareasApiController extends apiController{
         if ( empty( $params ) ) {
             $pc = $this->modelo->GetAllPc();
             
-            $this->vista->respuesta( $pc, 200 );
+            $this->vista->response( $pc, 200 );
         } else {
             $pc = $this->modelo->getPcbyId( $params[ ':ID' ] );
             if ( !empty( $pc ) ) {
-                $this->vista->respuesta( $pc, 200 );
+                $this->vista->response( $pc, 200 );
 
             } else {
-                $this->vista->respuesta( 'No se encontro pc', 401 );
+                $this->vista->response( 'No se encontro pc', 401 );
             }
         }
     }
@@ -33,23 +33,40 @@ class tareasApiController extends apiController{
     function getPcByOrder( $params = null ) {   
         
         if ( isset( $_REQUEST[ 'sort' ], $_REQUEST[ 'order' ] ) ) {
-            $pc = $this->modelo->getPcByOrder( $_REQUEST[ 'sort' ], (string)$_REQUEST[ 'order' ]);
-            $this->vista->respuesta( $pc, 200 );
+            $pc = $this->modelo->getPcByOrder( $_REQUEST[ 'sort' ], $_REQUEST[ 'order' ]);
+            $this->vista->response( $pc, 200 );
         } else {
-            $pc = $this->modelo->getPcByOrder( 'id_pc', 'DESC' );
-            $this->vista->respuesta( $pc, 200 );
+            $pc = $this->modelo->getPcByOrder( "motherboard", "DESC" );
+            $this->vista->response( $pc, 200 );
         }
     }
+
+    function getPcFilter(){
+        var_dump($_REQUEST);
+        if ( isset( $_REQUEST[ 'filter' ], $_REQUEST['value'])) {
+            $pc = $this->modelo->getPcFilter( $_REQUEST[ 'filter' ],$_REQUEST[ 'value' ]);
+            if ($pc) {
+                $this->vista->response( $pc, 200 );    
+            }
+            else{
+                $this->vista->response( "Sin elementos", 400 );    
+            }
+        } else {
+            
+            $this->vista->response( "NO se encontro requerimienti", 404 );
+
+    }
+}
 
     //creacion de una pc
     function postPC($params=null) {
         $body = $this->obtenerDatos();        
         if (isset($body)) {
           $this->modelo->postPc($body);
-          $this->vista->respuesta( "La PC se creo correctamente", 201 );
+          $this->vista->response( "La PC se creo correctamente2", 200 );
         }
         else {
-            $this->vista->respuesta( "Faltan setear algunos atributos para la creaccion de PC", 400 );
+            $this->vista->response( "Faltan setear algunos atributos para la creaccion de PC", 400 );
         }
     }
 
