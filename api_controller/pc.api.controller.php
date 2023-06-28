@@ -1,5 +1,5 @@
 <?php
-require_once 'api_model/api.model.php';
+require_once 'api_model/pc.api.model.php';
 require_once 'api_controller/api.controller.php';
 require_once 'api_view/api.view.php';
 
@@ -17,7 +17,6 @@ class pcApiController extends apiController
 
     public function getPc($params = null)
     {
-
         if (empty($params)) {
             $pc = $this->modelo->GetAllPc();
 
@@ -71,32 +70,38 @@ class pcApiController extends apiController
     //creacion de una pc
     function postPC($params = null)
     {
-        $body = $this->obtenerDatos();
-        if (isset($body['motherboard'], $body['processor'], $body['disco'], $body['RAM'], $body['video'], $body['description_pc'], $body['id_gama'])) {
-            if ($this->modelo->postPc($body)) {
-                $this->vista->response("La PC se creo correctamente", 201);
-            } else
-                $this->vista->response("La PC no se creo", 500);
-        } else {
-            $this->vista->response("Faltan setear algunos atributos para la creaccion de PC", 400);
-        }
+        if ($this->verificarToken()) {
+            $body = $this->obtenerDatos();
+            if (isset($body['motherboard'], $body['processor'], $body['disco'], $body['RAM'], $body['video'], $body['description_pc'], $body['id_gama'])) {
+                if ($this->modelo->postPc($body)) {
+                    $this->vista->response("La PC se creo correctamente", 201);
+                } else
+                    $this->vista->response("La PC no se creo", 500);
+            } else {
+                $this->vista->response("Faltan setear algunos atributos para la creaccion de PC", 400);
+            }
+        } else
+            $this->vista->response("El token ingresado es incorrecto", 400);
     }
 
     //modificacion de una pc
     function putPc($params = null)
     {
-        $body = $this->obtenerDatos();
-        if ($this->modelo->searchPc($params[':ID'])) {
-            if (isset($body['motherboard'], $body['processor'], $body['disco'], $body['RAM'], $body['video'], $body['description_pc'], $body['id_gama'])) {
-                if ($this->modelo->putPc($params[':ID'], $body)) {
-                    $this->vista->respuesta("La edicion se realizo correctamente", 200);
+        if ($this->verificarToken()) {
+            $body = $this->obtenerDatos();
+            if ($this->modelo->searchPc($params[':ID'])) {
+                if (isset($body['motherboard'], $body['processor'], $body['disco'], $body['RAM'], $body['video'], $body['description_pc'], $body['id_gama'])) {
+                    if ($this->modelo->putPc($params[':ID'], $body)) {
+                        $this->vista->respuesta("La edicion se realizo correctamente", 200);
+                    } else
+                        $this->vista->respuesta("La edicion no se realizo correctamente", 500);
                 } else
-                    $this->vista->respuesta("La edicion no se realizo correctamente", 500);
-            } else
-                $this->vista->respuesta("Faltan setear algunos atributos para la edicion de PC", 400);
-        } else {
-            $this->vista->respuesta("La PC a modificar no existe", 404);
-        }
+                    $this->vista->respuesta("Faltan setear algunos atributos para la edicion de PC", 400);
+            } else {
+                $this->vista->respuesta("La PC a modificar no existe", 404);
+            }
+        } else
+            $this->vista->response("El token ingresado es incorrecto", 400);
     }
 
     function deletePc()
