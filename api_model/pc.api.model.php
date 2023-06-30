@@ -33,16 +33,22 @@ class pc_model
     function getPcByOrder($sort, $order)
     {
         $sentencia = $this->db->prepare("SELECT * FROM pc join gama on pc.id_gama = gama.id_gama ORDER BY $sort $order");
-        $sentencia->execute();
-        //$sentencia->execute(array($sort,$order)); La sentencia deberia ser asi pero no funciona.
+        $sentencia->execute();        
+        return $sentencia->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    function getPaginado( $limit, $offset)
+    {
+        $sentencia = $this->db->prepare("SELECT * FROM pc join gama on pc.id_gama = gama.id_gama ORDER BY pc.id_pc ASC LIMIT $limit OFFSET $offset ");
+        $sentencia->execute();        
         return $sentencia->fetchAll(PDO::FETCH_OBJ);
     }
 
     function getPcFilter($filter, $value)
     {
 
-        $sentencia = $this->db->prepare("SELECT * FROM pc join gama on pc.id_gama = gama.id_gama where (pc.$filter = $value)");
-        $sentencia->execute();
+        $sentencia = $this->db->prepare("SELECT * FROM pc join gama on pc.id_gama = gama.id_gama where (pc.$filter = ?)");
+        $sentencia->execute(array($value));
         return $sentencia->fetchAll(PDO::FETCH_OBJ);
     }
 
