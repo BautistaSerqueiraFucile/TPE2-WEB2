@@ -21,7 +21,6 @@ class pcApiController extends apiController
     }
 
     public function getPc( $params = null ) {
-
         if ( empty( $params ) ) {
             if ( isset( $_REQUEST[ 'limit' ], $_REQUEST[ 'page' ] ) ) {
                 $page = $this->calcularPagina( $_REQUEST[ 'limit' ], $_REQUEST[ 'page' ] );
@@ -141,8 +140,4 @@ class pcApiController extends apiController
 
     }
 
-    function paginado()
- {
-
-    }
 }
