@@ -28,19 +28,28 @@ abstract class apiController
         if(isset($headers['Authorization'])){
         $authHeader = $headers['Authorization'];
         }
-        $key = null;                       
+        $token = null;                       
         
         if(isset($authHeader)){
             $authHeaderParts = explode(' ', $authHeader);
             if(count($authHeaderParts) === 2 && $authHeaderParts[0] === 'Bearer'){
-                $key = $authHeaderParts[1];
+                $token = $authHeaderParts[1];
             }
         }
-        $respuesta= $this->user->getToken($key);
-        var_dump($respuesta);
-        if($respuesta){
+
+        if($this->user->getToken($token) && $this->verificarTime($token)){
             return true;
         } else return false;
+    }
+
+    function verificarTime($token){
+        $time = $this->user->getTimeByToken($token);
+        $timeActual = time();
+        
+        if (($timeActual - $time->time) <= 10 ) {
+            return true;
+        }
+        else return false;
     }
     
 }

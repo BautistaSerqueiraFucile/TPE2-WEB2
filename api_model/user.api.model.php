@@ -15,14 +15,20 @@ class userModel{
         return $respuesta->fetch(PDO::FETCH_OBJ);
     }
 
+    function getTimeByToken($token){
+        $respuesta = $this->db->prepare('SELECT time FROM user WHERE (token = ?)');
+        $respuesta->execute(array($token));
+        return $respuesta->fetch(PDO::FETCH_OBJ);
+    }
+
     function getUser($username){
         $respuesta = $this->db->prepare('SELECT * FROM user WHERE (username = ?)');
         $respuesta->execute(array($username));
         return $respuesta->fetch(PDO::FETCH_OBJ);
     }
 
-    function putToken($username, $token){        
-        $respuesta = $this->db->prepare('UPDATE user SET token = ? WHERE (username = ?)');
-        return $respuesta->execute(array ($token, $username));
+    function putToken($username, $token, $time){        
+        $respuesta = $this->db->prepare('UPDATE user SET token = ?, time = ? WHERE (username = ?)');
+        return $respuesta->execute(array ($token,$time, $username));
     }
 }

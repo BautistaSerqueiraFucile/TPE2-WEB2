@@ -100,16 +100,15 @@ class pcApiController extends apiController
     function postPC( $params = null )
  {
         $body = $this->obtenerDatos();                        
-
-            if ( $this->verificarToken() ) {
-
+    
+            if ( $this->verificarToken() ) {                
                 if ( isset( $body[ 'motherboard' ], $body[ 'processor' ], $body[ 'disco' ], $body[ 'RAM' ], $body[ 'video' ], $body[ 'description_pc' ], $body[ 'id_gama' ] ) ) {
                     if ( $this->modelo->postPc( $body ) ) {
                         $this->vista->response( 'La PC se creo correctamente', 201 );
                     } else $this->vista->response( 'Error en la creacion de PC', 500 );
                 } else $this->vista->response( 'Faltan setear algunos atributos para la creaccion de PC', 400 );
 
-            } else $this->vista->response( 'El token ingresado es incorrecto', 400 );        
+            } else $this->vista->response( 'El token ingresado es invalido/vencido', 400 );        
     }
 
     //modificacion de una pc
@@ -128,7 +127,7 @@ class pcApiController extends apiController
                     } else $this->vista->response( 'Faltan setear algunos atributos para la edicion de PC', 400 );
                 } else $this->vista->response( 'La PC a modificar no existe', 404 );
 
-            } else $this->vista->response( 'El token ingresado es incorrecto', 400 );
+            } else $this->vista->response( 'El token ingresado es invalido/vencido', 400 ); 
     }
 
 }
