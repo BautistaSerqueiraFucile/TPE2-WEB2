@@ -25,9 +25,10 @@ class userController{
 
     function cargarToken($params = null){
         $token = $this->generarToken();
-        $username = $this->obtenerDatos();            
-        if ($this->model->getUser($username['username'])) {
-            if ($this->model->putToken($username['username'],$token)) {
+        $body = $this->obtenerDatos();     
+        $user = $this->model->getUser($body['username']);       
+        if ($user && password_verify( $body['user_password'], $user->user_password)) {// encontro usuario/verifica contraseña
+            if ($this->model->putToken($body['username'],$token)) {
                 $this->vista->response($token, 201);
             }
             else {

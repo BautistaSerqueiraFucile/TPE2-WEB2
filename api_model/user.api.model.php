@@ -9,9 +9,9 @@ class userModel{
         $this->db = new PDO('mysql:host=localhost;' . 'dbname=db_pcshop;charset:utf8', 'root', '');
     }
 
-    function getToken($username){
-        $respuesta = $this->db->prepare('SELECT token FROM user WHERE (username = ?)');
-        $respuesta->execute(array($username));
+    function getToken($token){
+        $respuesta = $this->db->prepare('SELECT token FROM user WHERE (token = ?)');
+        $respuesta->execute(array($token));
         return $respuesta->fetch(PDO::FETCH_OBJ);
     }
 

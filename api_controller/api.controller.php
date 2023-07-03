@@ -28,8 +28,7 @@ abstract class apiController
         if(isset($headers['Authorization'])){
         $authHeader = $headers['Authorization'];
         }
-        $key = null;        
-        $token = $params->token;        
+        $key = null;                       
         
         if(isset($authHeader)){
             $authHeaderParts = explode(' ', $authHeader);
@@ -37,7 +36,9 @@ abstract class apiController
                 $key = $authHeaderParts[1];
             }
         }
-        if($key === $token){
+        $respuesta= $this->user->getToken($key);
+        var_dump($respuesta);
+        if($respuesta){
             return true;
         } else return false;
     }
