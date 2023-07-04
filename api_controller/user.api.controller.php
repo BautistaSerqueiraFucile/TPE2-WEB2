@@ -27,8 +27,8 @@ class userController {
     function cargarToken( $params = null ) {
 
         $body = $this->obtenerDatos();
+        if(isset($body[ 'username' ])&&isset($body[ 'user_password' ])){
         $user = $this->model->getUser( $body[ 'username' ] );
-
         $token = $this->generarToken();
         $time = time();        
 
@@ -40,7 +40,8 @@ class userController {
                 $this->vista->response( 'Hubo un error en la carga de token', 400 );
             }
         } else {
-            $this->vista->response( 'El usuario/contraseña incorrectos', 400 );
+            $this->vista->response( 'El usuario/contraseña son incorrectos', 400 );
         }
-    }
+    } else $this->vista->response( 'No se enviaron los datos de usuario correspondientes', 400 );
+    }   
 }

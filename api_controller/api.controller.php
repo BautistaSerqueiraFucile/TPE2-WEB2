@@ -46,7 +46,7 @@ abstract class apiController
         $time = $this->user->getTimeByToken($token);
         $timeActual = time();
         
-        if (($timeActual - $time->time) <= 10 ) {
+        if (($timeActual - $time->time) <= 300 ) {
             return true;
         }
         else return false;

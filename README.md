@@ -170,8 +170,8 @@ fetch('http://localhost/proyectos/TPE2-WEB2/pc/id', {
 ```js
 
 const User={
-username = 'X',
-user_password= 'Y'
+"username" : "X",
+"user_password" : "Y"
 };
 
 
@@ -205,13 +205,13 @@ fetch('http://localhost/proyectos/TPE2-WEB2/token', {
 
 ```js
 const newPc= {
-	motherboard : X,
-	processor : X,
-	RAM : X,
-	disco : X,
-	video : X,
-	description_pc : X,
-	id_gama : Y
+	"motherboard" : "X",
+	"processor" : "X",
+	"RAM" : "X",
+	"disco" : "X",
+	"video" : "X",
+	"description_pc" : "X",
+	"id_gama" : Y
 };
 
 fetch('http://localhost/proyectos/TPE2-WEB2/pc', {
@@ -244,14 +244,14 @@ fetch('http://localhost/proyectos/TPE2-WEB2/pc', {
     TOKEN = se hace uso del token previamente obtenido
 
 ```js
-const newData= {
-	motherboard : X,
-	processor : X,
-	RAM : X,
-	disco : X,
-	video : X,
-	description_pc : X,
-	id_gama : Y
+const newPc= {
+	"motherboard" : "X",
+	"processor" : "X",
+	"RAM" : "X",
+	"disco" : "X",
+	"video" : "X",
+	"description_pc" : "X",
+	"id_gama" : Y
 };
 
 fetch('http://localhost/proyectos/TPE2-WEB2/pc/ID', {

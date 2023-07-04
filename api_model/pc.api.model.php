@@ -67,12 +67,6 @@ class pc_model
         return $respuesta->execute(array($pc['motherboard'], $pc['processor'], $pc['disco'], $pc['RAM'], $pc['video'], $pc['description_pc'], $pc['id_gama'], $id_pc));
     }
 
-    function deletePc($id_pc)
-    {
-        $respuesta = $this->db->prepare('DELETE FROM pc WHERE id_pc=?');
-        return $respuesta->execute(array($id_pc));
-    }
-
     function searchPc($id_pc)
     {
         $respuesta = $this->db->prepare('SELECT * FROM pc JOIN gama on pc.id_gama=gama.id_gama WHERE (id_pc=?)');

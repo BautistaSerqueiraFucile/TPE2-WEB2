@@ -25,31 +25,34 @@ class pcApiController extends apiController
             if ( isset( $_REQUEST[ 'limit' ], $_REQUEST[ 'page' ] ) ) {
                 $page = $this->calcularPagina( $_REQUEST[ 'limit' ], $_REQUEST[ 'page' ] );
                 $pc = $this->modelo->getPaginado( $_REQUEST[ 'limit' ], $page );
-                if ( $pc ) {
-
+                if ( !empty($pc) ) {
                     $this->vista->response( $pc, 200 );
-                } else $this->vista->response( 'Error en la consulta', 404 );
-            } else {
+                } else $this->vista->response( 'Error en la consulta/fuera de rango', 404 );
+            } 
+            elseif ( !isset( $_REQUEST[ 'limit' ] ) && isset( $_REQUEST[ 'page' ] ) ) {
+                $this->vista->response( 'Falta el query param: limit', 400 );
+            } elseif ( !isset( $_REQUEST[ 'page' ] ) && isset( $_REQUEST[ 'limit' ] ) ) {
+                $this->vista->response( 'Falta el query param: page', 400 );
+            }
+            else {
                 $pc = $this->modelo->GetAllPc();
-                if ( $pc ) {
+                if ( !empty($pc) ) {
                     $this->vista->response( $pc, 200 );
-                } else $this->vista->response( 'Error en la consulta', 404 );
+                } else $this->vista->response( 'Error en el servidor', 500 );
             }
 
         } else {
             $pc = $this->modelo->getPcbyId( $params[ ':ID' ] );
             if ( !empty( $pc ) ) {
                 $this->vista->response( $pc, 200 );
-
             } else {
-                $this->vista->response( 'No se encontro pc', 401 );
+                $this->vista->response( 'No se encontro pc', 404 );
             }
         }
     }
 
     function calcularPagina( $limit, $page ) {
         return ( ( $page-1 )*$limit );
-
     }
 
     function getPcByOrder( $params = null )
@@ -60,20 +63,20 @@ class pcApiController extends apiController
             if ( in_array( $_REQUEST[ 'sort' ], $this->atributes ) ) {
                 if ( in_array( $_REQUEST[ 'order' ], $this->order ) ) {
                     $pc = $this->modelo->getPcByOrder( $_REQUEST[ 'sort' ], $_REQUEST[ 'order' ] );
-                    if ( $pc ) {
+                    if ( !empty($pc) ) {
                         $this->vista->response( $pc, 200 );
-                    } else $this->vista->response( 'Error en la consulta', 404 );
+                    } else $this->vista->response( 'Error en el servidor', 500 );
 
-                } else    $this->vista->response( 'Orden Invalido', 404 );
+                } else $this->vista->response( 'Orden Invalido', 400 );
 
-            } else $this->vista->response( 'Parametros invalidos', 404 );
+            } else $this->vista->response( 'Parametro inexistente', 404 );
         } elseif ( !isset( $_REQUEST[ 'sort' ] ) && isset( $_REQUEST[ 'order' ] ) ) {
             $this->vista->response( 'Falta el query param: sort', 400 );
         } elseif ( !isset( $_REQUEST[ 'order' ] ) && isset( $_REQUEST[ 'sort' ] ) ) {
             $this->vista->response( 'Falta el query param: order', 400 );
         } else {
             $pc = $this->modelo->getPcByOrder( 'motherboard', 'DESC' );
-            if ( $pc ) {
+            if ( !empty($pc) ) {
                 $this->vista->response( $pc, 200 );
             } else
             $this->vista->response( 'Error del lado del servidor', 500 );
@@ -86,12 +89,12 @@ class pcApiController extends apiController
         if ( isset( $_REQUEST[ 'filter' ], $_REQUEST[ 'value' ] ) ) {
             if ( in_array( $_REQUEST[ 'filter' ], $this->atributes ) ) {
                 $pc = $this->modelo->getPcFilter( $_REQUEST[ 'filter' ], $_REQUEST[ 'value' ] );
-                if ( $pc ) {
+                if ( !empty($pc) ) {
                     $this->vista->response( $pc, 200 );
-                } else $this->vista->response( 'Error en la consulta/sin elementos', 404 );
+                } else $this->vista->response( 'sin elementos', 404 );
 
-            } else $this->vista->response( 'Parametro de filtro invalidos', 404 );
-        } else $this->vista->response( 'No se completaron los campos requeridos para el filtro', 404 );
+            } else $this->vista->response( 'Parametro de filtro inexistente', 404 );
+        } else $this->vista->response( 'No se completaron los campos requeridos para el filtro', 400 );
 
     }
 
